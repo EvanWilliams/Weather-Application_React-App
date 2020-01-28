@@ -1,0 +1,12 @@
+React Weather App - 
+
+I want to thank you for the opportunity to work on this coding challenge, I think this has been the best version of coding interview I have yet encountered. I think this was a really good way for me to express my coding style while displaying my abilty to code through several common hurdles. I want to first go over any of the functionality that I did not have time to finish, to be sure that you can see it in action.
+Due to time constraints I was unable to implement several things into this application. Firstly there is no functionality to enter in city names or display the nearest city given a Lat/Long. I was also unable to sanitize or validate the inputs for the custom location. I am pretty new to React in general, and I was decided to forgo testing so that I could finish the core functionality of this challenge. Also I did not add any error messaging if you do not enable location services.
+
+If I were to deploy a further version of this application into production I would want to do several things. I would need to implement unit testing to be sure that all the newly created components are completely reliable. I also would want a UX designer to take a pass at this page and potentially provide a mockup to be sure that I am not coding myself into a corner, and tighten up the spacing and colors/fonts. I am still learning React best practices and code standards. I have 2 years experience developing Polymer.js projects but I have been dedicated to more legacy support and vanilla JavaScript for the last year. I would want some advice or more time to research the lifecycle methods in React so I can be sure I am using them in an optimal way. I would also want to be completely sure the correct way to conditionally render in React, I was duplicating some markup and I don't think this is the exactly correct way to do this. I used css grid and flexbox as well as hue-rotate so I am assuming this application's user group will be people using modern browsers. This also introduces some potential issues with accessibility on very high temperatures (over 100F) I would need UX approval of this design approach. 
+
+Thanks for reaching out about this opportunity, this was a very worthwhile and fun exercise.
+
+Github: https://github.com/EvanWilliams/Weather-Application_React-App
+
+Heroku: https://boiling-journey-60220.herokuapp.com/
