@@ -1,0 +1,81 @@
+#weather-display,#weather-display_configurable{
+	display: grid;
+	padding: 12px;
+	margin: 8px;
+	border-radius:5px;
+	background: #09b3b3;
+}
+
+.location-info{
+	display: grid;
+    grid-row-gap: 16px;
+    font-size: 24px;
+}
+
+.location-info--row{
+	grid-column-gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 9fr;
+}
+
+.current-weather{
+	padding-top:16px;
+}
+.current-weather h4{
+	text-align: center;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    background: #cef7ddba;
+
+}
+.weather-description{
+	display: grid;
+    grid-template-columns: 1fr 30px 30px;
+    grid-template-rows: 5px 30px 5px;
+}
+.button-disclaimer{
+	grid-row:2;
+}
+.button{
+	grid-row: 2;
+	grid-column: 2;
+}
+
+.weather-card{
+	display:flex;
+}
+.todays-weather,.tomorrows-weather{
+	display: grid;
+    grid-template-rows: 16px 100px 1fr;
+}
+.todays-weather h3,.tomorrows-weather h3{
+    font-size: 14px;
+    font-weight: 400;
+    max-width: 80%;
+    padding: 2px 2px 2px 2px;
+}
+.current-weather--skycons{
+	height:33%;
+	width:33%;
+	padding: 10% 0 10% 0;
+	border: solid 5px #c8c8c8;
+	border-radius: 2px;
+	background: #efefef;
+}
+
+.weather-card--info{
+	padding-left: 24px;
+	padding-top:10px;
+    display: grid;
+    grid-row-gap: 10px;
+    grid-template-rows: 1fr 1fr 1fr 8px;
+    font-size: 18px;
+}
+.future-forcast{
+	padding: 0px 10px 10px 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #607D8B;
+    border: solid 3px #c8c8c8c8;
+    margin: 10px 0 10px 0;
+}
