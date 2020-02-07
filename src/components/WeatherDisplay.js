@@ -21,16 +21,18 @@ class WeatherDisplay extends Component{
         var controlsHTML = (
       <div>
         <div className="weather-description">
-          Weather data for your current location
+          <div className="weather-disclaimer">Weather data for your current location </div>
         </div>
         <div className="location-info">
           <div className="location-info--row">
            <div className="location-info--title">Latitude&nbsp;:</div>
            <div className="location-info--data">{latitude} </div>
+           <div className="location-info--navigation-disclaimer">- is South. + is North</div>
           </div>
           <div className="location-info--row">
             <div className="location-info--title">Longitude&nbsp;:</div>
             <div className="location-info--data">{longitude} </div>
+            <div className="location-info--navigation-disclaimer">- is West. + is East</div>
           </div>
           <div className="location-info--row"> 
             <div className="location-info--title">Timezone&nbsp;:</div>
@@ -43,7 +45,7 @@ class WeatherDisplay extends Component{
         controlsHTML = <div id="">
         <div className="weather-description">
           <div className="button-disclaimer">Enter in your own Lat and Long</div>
-          <div className="button"><button onClick={(e) => this.handleChange(e)}>Go</button></div>
+          <div className="button"><button onClick={(e) => this.handleChange(e)}>Go to Location</button></div>
         </div>
         <div className="location-info">
           <div className="location-info--row">
@@ -51,12 +53,14 @@ class WeatherDisplay extends Component{
            <div className="location-info--data">
               <input type="text" placeholder="" ref={this.latinput} id="latinput"/>
            </div>
+           <div className="location-info--navigation-disclaimer">- is South. + is North</div>
           </div>
           <div className="location-info--row">
             <div className="location-info--title">Longitude&nbsp;:</div>
             <div className="location-info--data">
               <input type="text" placeholder="" ref={this.longinput} id="longinput"/>
             </div>
+            <div className="location-info--navigation-disclaimer">- is West. + is East</div>
           </div>
           <div className="location-info--row"> 
             <div className="location-info--title">Timezone&nbsp;:</div>

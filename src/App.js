@@ -52,7 +52,7 @@ function App() {
     "longitude":0,
     "timezone":"",
     "currently":{
-      "summary":"",
+      "summary":"Could be Anythin'!",
       "icon":"",
       "temperature":0,
       "humidity":0,
@@ -94,7 +94,6 @@ function App() {
 
   const [currentLocation, setcurrentLocation] = useState({"lat": null, "long": null} );
   const [customLocation, setcustomLocation] = useState({"lat":null, "long":null});
-  var currentLocationTimer,customLocationTimer = null;
 
   useEffect(() => {
     getPosition();
@@ -107,7 +106,7 @@ function App() {
       setPolling();
     }, 30000);
     return () => clearInterval(interval);
-  },[currentLocation]);
+  },[currentLocation,customLocation]);
 
   var getPosition = function (options) {
     return new Promise(function (resolve, reject) {
@@ -117,7 +116,7 @@ function App() {
   
   getPosition()
     .then((position) => {
-      setcurrentLocation({"lat":position.coords.latitude, "long":position.coords.longitude});
+      setcurrentLocation({"lat":Number(position.coords.latitude.toFixed(3)), "long":Number(position.coords.longitude.toFixed(3))});
     })
     .catch((err) => {
       console.error(err.message);
@@ -129,6 +128,9 @@ function App() {
 
     if(validateInput(inputLatitude,inputLongitude)){
       setcustomLocation({"lat":inputLatitude, "long":inputLongitude});
+    }
+    else{
+      alert("please add a ")
     }
 
   }
@@ -146,7 +148,7 @@ function App() {
     //Check if the Custom Location is set
     if(customLocation.lat != null && customLocation.long != null){
       //call darksky once and then set an Interval timer
-      callDarksky(customLocation.lat,customLocation.long, false);
+        callDarksky(customLocation.lat,customLocation.long, false);
       }
   }
 
@@ -171,12 +173,9 @@ function App() {
 
       if(isCurrent && data){
         setcurrentWeatherData(data);
-        console.log(currentWeatherData);
-        console.log(data);
       }
       else if (data){
         setcustomWeatherData(data);
-        console.log(data);
       }
 
       if(isCurrent){
@@ -211,6 +210,7 @@ function App() {
           summary={customWeatherData.currently.summary}
           currentIcon={customWeatherData.currently.icon}
           currentTemperature={customWeatherData.currently.temperature}
+          currentWindspeed={customWeatherData.currently.windSpeed}
           currentPressure={customWeatherData.currently.pressure}
           hourlySummary={customWeatherData.hourly.summary}
           hourlyIcon={customWeatherData.hourly.icon}

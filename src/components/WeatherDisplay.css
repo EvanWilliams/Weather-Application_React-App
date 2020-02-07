@@ -17,6 +17,18 @@
     display: grid;
     grid-template-columns: 1fr 2fr 9fr;
 }
+.location-info--data{
+	align-items: center;
+    display: grid;
+}
+.location-info--data input{
+	font-size:16px;
+}
+.location-info--navigation-disclaimer{
+	font-size: 10px;
+	align-self: center;
+    justify-self: flex-end;
+}
 
 .current-weather{
 	padding-top:16px;
@@ -30,14 +42,15 @@
 }
 .weather-description{
 	display: grid;
-    grid-template-columns: 1fr 30px 30px;
-    grid-template-rows: 5px 30px 5px;
+	align-items: center;
+    grid-template-columns: 1fr 105px 5px;
+    grid-template-rows: 30px 10px;
 }
-.button-disclaimer{
-	grid-row:2;
+.button-disclaimer,.weather-disclaimer{
+	grid-row:1;
 }
 .button{
-	grid-row: 2;
+	grid-row: 1;
 	grid-column: 2;
 }
 
@@ -78,4 +91,8 @@
     background: #607D8B;
     border: solid 3px #c8c8c8c8;
     margin: 10px 0 10px 0;
+}
+button{
+	width:105px;
+	height:25px;
 }
