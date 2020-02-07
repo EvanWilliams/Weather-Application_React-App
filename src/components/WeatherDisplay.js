@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './WeatherDisplay.css'
 import Skycons from 'react-skycons'
 import { render } from '@testing-library/react';
 
-const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentIcon,currentTemperature,currentPressure,currentWindspeed,hourlySummary,hourlyIcon,dailySummary,dailyIcon,onInputChange}) => {
-  function handleChange(e) {
 
+class WeatherDisplay extends Component{ 
+
+  handleChange(e) {
     this.props.onInputChange(e.target.value);
   }
+  render(){
+    this.longinput = React.createRef();
+    this.latinput = React.createRef();
+
+    const {
+      isCurrent, latitude,longitude,timezone,summary,currentIcon,currentTemperature,currentPressure,currentWindspeed,hourlySummary,hourlyIcon,dailySummary,dailyIcon,onInputChange
+    } = this.props;
+
   if(isCurrent){
         var controlsHTML = (
       <div>
@@ -34,19 +43,19 @@ const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentI
         controlsHTML = <div id="">
         <div className="weather-description">
           <div className="button-disclaimer">Enter in your own Lat and Long</div>
-          <div className="button"><button onClick={handleChange}>Go</button></div>
+          <div className="button"><button onClick={(e) => this.handleChange(e)}>Go</button></div>
         </div>
         <div className="location-info">
           <div className="location-info--row">
            <div className="location-info--title">Latitude&nbsp;:</div>
            <div className="location-info--data">
-              <input type="text" placeholder="" id="latinput"/>
+              <input type="text" placeholder="" ref={this.latinput} id="latinput"/>
            </div>
           </div>
           <div className="location-info--row">
             <div className="location-info--title">Longitude&nbsp;:</div>
             <div className="location-info--data">
-              <input type="text" placeholder="" id="longinput"/>
+              <input type="text" placeholder="" ref={this.longinput} id="longinput"/>
             </div>
           </div>
           <div className="location-info--row"> 
@@ -104,6 +113,7 @@ const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentI
           </div>
         </div>
       );
+  }
 }
 
 export default WeatherDisplay;

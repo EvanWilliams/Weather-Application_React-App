@@ -124,16 +124,16 @@ function App() {
     });
 
   const updateCustomLocation = (e) => {
-    let inputLatitude = Document.getElementById("latinput");
-    let inputLongitude = Document.getElementById("longinput");
+    let inputLatitude = document.getElementById("latinput").value;
+    let inputLongitude = document.getElementById("longinput").value;
 
-    if(this.validateInput(inputLatitude,inputLongitude)){
-      setcurrentLocation({"lat":inputLatitude, "long":inputLongitude});
+    if(validateInput(inputLatitude,inputLongitude)){
+      setcustomLocation({"lat":inputLatitude, "long":inputLongitude});
     }
 
   }
 
-  function validateInput (lat,long) {
+  const validateInput = (lat,long) => {
     let pattern = RegExp("[-]?[0-9]*\.?[0-9]+");
     return (pattern.test(lat) && pattern.test(long))
   }
