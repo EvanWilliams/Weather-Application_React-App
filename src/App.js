@@ -6,18 +6,18 @@ function App() {
   const [currentWeatherData, setcurrentWeatherData] = useState({
     "latitude":0,
     "longitude":0,
-    "timezone":"America/New_York",
+    "timezone":"",
     "currently":{
-      "summary":"Drizzle",
-      "icon":"rain",
+      "summary":"",
+      "icon":"",
       "temperature":0,
       "humidity":0,
       "pressure":0,
       "windSpeed":0
     },
     "minutely":{
-      "summary":"Light rain stopping in 13 min., starting again 30 min. later.",
-      "icon":"rain",
+      "summary":"",
+      "icon":"",
     },
     "hourly":{
       "summary":"",
@@ -47,56 +47,52 @@ function App() {
         ]
     }
   });
-  const [customWeatherData, setcustomWeatherData] = useState(
-    {
-      "latitude":42.3601,
-      "longitude":-71.0589,
-      "timezone":"America/New_York",
-      "currently":{
-      "summary":"Drizzle",
-      "icon":"rain",
-      "precipProbability":0.9,
-      "precipType":"rain",
-      "temperature":66.1,
-     
-      "humidity":0.83,
-      "pressure":1010.34,
-      "windSpeed":5.59
-      },
-      "minutely":{
-      "summary":"Light rain stopping in 13 min., starting again 30 min. later.",
-      "icon":"rain",
-      },
-      "hourly":{
-      "summary":"Rain starting later this afternoon, continuing until this evening.",
-      "icon":"rain",
+  const [customWeatherData, setcustomWeatherData] = useState({
+    "latitude":0,
+    "longitude":0,
+    "timezone":"",
+    "currently":{
+      "summary":"",
+      "icon":"",
+      "temperature":0,
+      "humidity":0,
+      "pressure":0,
+      "windSpeed":0
+    },
+    "minutely":{
+      "summary":"",
+      "icon":"",
+    },
+    "hourly":{
+      "summary":"",
+      "icon":"",
       "data":[
             {
-              "time":1509991200,
-              "summary":"Mostly Cloudy",
-              "icon":"partly-cloudy-day",
-              "precipType":"rain",
-              "temperature":65.76,
-              "pressure":1010.57,
-              "windSpeed":4.23,
+              "time":0,
+              "summary":"",
+              "icon":"",
+              "precipType":"",
+              "temperature":0,
+              "pressure":0,
+              "windSpeed":0,
             }
           ]
-        },
-        "daily":{
-        "summary":"Mixed precipitation throughout the week, with temperatures falling to 39°F on Saturday.",
-        "icon":"rain",
+      },
+      "daily":{
+        "summary":"",
+        "icon":"",
         "data":[
             {
             "time":1509944400,
-            "summary":"Rain starting in the afternoon, continuing until evening.",
-            "pressure":1012.93,
-            "windSpeed":3.22,
+            "summary":"",
+            "pressure":0,
+            "windSpeed":0,
             }
         ]
-      }
     }
-  );
-  const [currentLocation, setcurrentLocation] = useState({"lat": 0, "long": 0} );
+  });
+
+  const [currentLocation, setcurrentLocation] = useState({"lat": null, "long": null} );
   const [customLocation, setcustomLocation] = useState({"lat":null, "long":null});
   var currentLocationTimer,customLocationTimer = null;
 
@@ -105,7 +101,12 @@ function App() {
   },[]);
 
   useEffect(() => {
+    //fire once to reduce delay
     setPolling();
+    const interval = setInterval(() => {
+      setPolling();
+    }, 30000);
+    return () => clearInterval(interval);
   },[currentLocation]);
 
   var getPosition = function (options) {
@@ -122,32 +123,31 @@ function App() {
       console.error(err.message);
     });
 
+  const updateCustomLocation = (e) => {
+    let inputLatitude = Document.getElementById("latinput");
+    let inputLongitude = Document.getElementById("longinput");
 
-  function setPolling () {
-    //set the app to poll for changes in the weather.
-    if(currentLocationTimer){
-      //reset timer for the currentLocation
-        clearInterval(currentLocationTimer);
-        currentLocationTimer = null;
-      }
-      //Check if the currentLocation is set in the Lat and Long
-      if(currentLocation.lat != 0 && currentLocation.long != 0 ){
-        callDarksky(currentLocation.lat,currentLocation.long,true);
-        currentLocationTimer = setInterval( () => callDarksky(currentLocation.lat,currentLocation.long,true), 30000);
-      }
-    
-    //Check if the Custom Location is set
-    if(customLocation.lat != undefined && customLocation.long != undefined){
-      //if Timer already exists, destroy it
-      if(customLocationTimer){
-        clearInterval(this.customLocationTimer);
-        customLocationTimer = null;
-      }
-      //call darksky once and then set an Interval timer
-      callDarksky(customLocation.lat,customLocation.long, false);
-      customLocationTimer = setInterval( () => callDarksky(customLocation.lat,customLocation.long, false), 30000);
+    if(this.validateInput(inputLatitude,inputLongitude)){
+      setcurrentLocation({"lat":inputLatitude, "long":inputLongitude});
     }
 
+  }
+
+  function validateInput (lat,long) {
+    let pattern = RegExp("[-]?[0-9]*\.?[0-9]+");
+    return (pattern.test(lat) && pattern.test(long))
+  }
+
+  function setPolling () {
+      //Check if the currentLocation is set in the Lat and Long
+      if(currentLocation.lat != null && currentLocation.long != null ){
+        callDarksky(currentLocation.lat,currentLocation.long,true);
+      }
+    //Check if the Custom Location is set
+    if(customLocation.lat != null && customLocation.long != null){
+      //call darksky once and then set an Interval timer
+      callDarksky(customLocation.lat,customLocation.long, false);
+      }
   }
 
   const callDarksky = async (lat,long,isCurrent) => {
@@ -183,14 +183,6 @@ function App() {
         document.getElementById('weather-display').style.filter= "hue-rotate("+data.heat+"deg)";
       }
     });
-      //     if(this.state.isCurrent){
-      //       document.getElementById('weather-display').style.filter= "hue-rotate("+this.state.heat+"deg)";
-      //     }
-      //     else{
-      //       document.getElementById('weather-display_configurable').style.filter= "hue-rotate("+this.state.heat+"deg)";
-      //       document.getElementById('latinput').value  = lat;
-      //       document.getElementById('longinput').value = long;
-      //     }
   }
   return(
       <div id="App">
@@ -208,6 +200,7 @@ function App() {
           hourlyIcon={currentWeatherData.hourly.icon}
           dailySummary={currentWeatherData.daily.summary}
           dailyIcon={currentWeatherData.daily.icon}
+          onInputChange={updateCustomLocation}
         />
         { true ? (
         <WeatherDisplay 
@@ -223,6 +216,7 @@ function App() {
           hourlyIcon={customWeatherData.hourly.icon}
           dailySummary={customWeatherData.daily.summary}
           dailyIcon={customWeatherData.daily.icon}
+          onInputChange={updateCustomLocation}
         /> )
           : (<div/>)
         } }

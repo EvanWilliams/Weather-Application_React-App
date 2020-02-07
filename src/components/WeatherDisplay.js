@@ -1,14 +1,13 @@
 import React from 'react';
 import './WeatherDisplay.css'
 import Skycons from 'react-skycons'
+import { render } from '@testing-library/react';
 
 const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentIcon,currentTemperature,currentPressure,currentWindspeed,hourlySummary,hourlyIcon,dailySummary,dailyIcon,onInputChange}) => {
-      
   function handleChange(e) {
-    
+
     this.props.onInputChange(e.target.value);
   }
-  
   if(isCurrent){
         var controlsHTML = (
       <div>
@@ -32,10 +31,10 @@ const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentI
       </div>)
       }
       else{(
-        controlsHTML = <div id="weather-display_configurable">
+        controlsHTML = <div id="">
         <div className="weather-description">
           <div className="button-disclaimer">Enter in your own Lat and Long</div>
-          <div className="button"><button>Go</button></div>
+          <div className="button"><button onClick={handleChange}>Go</button></div>
         </div>
         <div className="location-info">
           <div className="location-info--row">
