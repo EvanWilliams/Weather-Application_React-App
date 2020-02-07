@@ -3,52 +3,48 @@ import './App.css'
 import WeatherDisplay from './components/WeatherDisplay.js'
 
 function App() {
-
   const [currentWeatherData, setcurrentWeatherData] = useState({
-    "latitude":42.3601,
-    "longitude":-71.0589,
+    "latitude":0,
+    "longitude":0,
     "timezone":"America/New_York",
     "currently":{
-    "summary":"Drizzle",
-    "icon":"rain",
-    "precipProbability":0.9,
-    "precipType":"rain",
-    "temperature":66.1,
-   
-    "humidity":0.83,
-    "pressure":1010.34,
-    "windSpeed":5.59
+      "summary":"Drizzle",
+      "icon":"rain",
+      "temperature":0,
+      "humidity":0,
+      "pressure":0,
+      "windSpeed":0
     },
     "minutely":{
-    "summary":"Light rain stopping in 13 min., starting again 30 min. later.",
-    "icon":"rain",
+      "summary":"Light rain stopping in 13 min., starting again 30 min. later.",
+      "icon":"rain",
     },
     "hourly":{
-    "summary":"Rain starting later this afternoon, continuing until this evening.",
-    "icon":"rain",
-    "data":[
-          {
-            "time":1509991200,
-            "summary":"Mostly Cloudy",
-            "icon":"partly-cloudy-day",
-            "precipType":"rain",
-            "temperature":65.76,
-            "pressure":1010.57,
-            "windSpeed":4.23,
-          }
-        ]
+      "summary":"",
+      "icon":"",
+      "data":[
+            {
+              "time":0,
+              "summary":"",
+              "icon":"",
+              "precipType":"",
+              "temperature":0,
+              "pressure":0,
+              "windSpeed":0,
+            }
+          ]
       },
       "daily":{
-      "summary":"Mixed precipitation throughout the week, with temperatures falling to 39°F on Saturday.",
-      "icon":"rain",
-      "data":[
-          {
-          "time":1509944400,
-          "summary":"Rain starting in the afternoon, continuing until evening.",
-          "pressure":1012.93,
-          "windSpeed":3.22,
-          }
-      ]
+        "summary":"",
+        "icon":"",
+        "data":[
+            {
+            "time":1509944400,
+            "summary":"",
+            "pressure":0,
+            "windSpeed":0,
+            }
+        ]
     }
   });
   const [customWeatherData, setcustomWeatherData] = useState(
@@ -100,40 +96,56 @@ function App() {
       }
     }
   );
-  const [currentLocation, setcurrentLocation] = useState([{"lat":"82.3", "long":"-147.1"}]);
-  const [customLocation, setcustomLocation] = useState([{"lat":null, "long":null}]);
+  const [currentLocation, setcurrentLocation] = useState({"lat": 0, "long": 0} );
+  const [customLocation, setcustomLocation] = useState({"lat":null, "long":null});
   var currentLocationTimer,customLocationTimer = null;
 
   useEffect(() => {
-    showPosition();
+    getPosition();
   },[]);
 
-  const showPosition = async() => {
-    if(navigator.geolocation) {
-        await navigator.geolocation.getCurrentPosition((position) => {
-            setcurrentLocation({"lat":position.coords.latitude.toString(), "long":position.coords.longitude.toString()});
-        });
-        setPolling();
-    } else {
-        alert("Sorry, your browser does not support HTML5 geolocation.");
-    }
+  useEffect(() => {
+    setPolling();
+  },[currentLocation]);
+
+  var getPosition = function (options) {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
   }
-  function setPolling (lat,long) {
+  
+  getPosition()
+    .then((position) => {
+      setcurrentLocation({"lat":position.coords.latitude, "long":position.coords.longitude});
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+
+
+  function setPolling () {
     //set the app to poll for changes in the weather.
     if(currentLocationTimer){
+      //reset timer for the currentLocation
         clearInterval(currentLocationTimer);
         currentLocationTimer = null;
       }
-      callDarksky(currentLocation[0].lat,currentLocation[0].long,true);
-      currentLocationTimer = setInterval( () => callDarksky(currentLocation[0].lat,currentLocation[0].long,true), 30000);
-
-    if(customLocation[0].lat != undefined && customLocation[0].long != undefined){
+      //Check if the currentLocation is set in the Lat and Long
+      if(currentLocation.lat != 0 && currentLocation.long != 0 ){
+        callDarksky(currentLocation.lat,currentLocation.long,true);
+        currentLocationTimer = setInterval( () => callDarksky(currentLocation.lat,currentLocation.long,true), 30000);
+      }
+    
+    //Check if the Custom Location is set
+    if(customLocation.lat != undefined && customLocation.long != undefined){
+      //if Timer already exists, destroy it
       if(customLocationTimer){
         clearInterval(this.customLocationTimer);
         customLocationTimer = null;
       }
-      callDarksky(customLocation[0].lat,customLocation[0].long, false);
-      customLocationTimer = setInterval( () => callDarksky(customLocation[0].lat,customLocation[0].long, false), 30000);
+      //call darksky once and then set an Interval timer
+      callDarksky(customLocation.lat,customLocation.long, false);
+      customLocationTimer = setInterval( () => callDarksky(customLocation.lat,customLocation.long, false), 30000);
     }
 
   }
@@ -145,7 +157,6 @@ function App() {
     const response = await fetch(proxy + endpoint)
     .then(res => res.json())
     .then( data => { 
-      debugger;
 
       if(data.currently.icon){
         data.currently.icon = data.currently.icon.toUpperCase().replace(/-/g, '_');

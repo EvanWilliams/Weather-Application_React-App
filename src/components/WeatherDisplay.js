@@ -2,12 +2,12 @@ import React from 'react';
 import './WeatherDisplay.css'
 import Skycons from 'react-skycons'
 
-const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentIcon,currentTemperature,currentPressure,currentWindspeed,hourlySummary,hourlyIcon,dailySummary,dailyIcon}) => {
+const WeatherDisplay = ({isCurrent, latitude,longitude,timezone,summary,currentIcon,currentTemperature,currentPressure,currentWindspeed,hourlySummary,hourlyIcon,dailySummary,dailyIcon,onInputChange}) => {
       
   function handleChange(e) {
+    
     this.props.onInputChange(e.target.value);
   }
-
   
   if(isCurrent){
         var controlsHTML = (
