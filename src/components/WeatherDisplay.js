@@ -20,7 +20,7 @@ class WeatherDisplay extends Component{
   if(isCurrent){
         var controlsHTML = (
       <div>
-        <div className="weather-description">
+        <div className="weather-description weather-description-current">
           <div className="weather-disclaimer">Weather data for your current location </div>
         </div>
         <div className="location-info">
@@ -70,7 +70,7 @@ class WeatherDisplay extends Component{
       </div>
       )}
       return (
-        <div id="weather-display">
+        <div className={isCurrent ? "weather-display_current" : "weather-display"}>
         {controlsHTML}
           <div className="current-weather">
             <h4>The Weather at this location is currently :</h4>

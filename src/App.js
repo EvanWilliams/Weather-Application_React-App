@@ -130,7 +130,7 @@ function App() {
       setcustomLocation({"lat":inputLatitude, "long":inputLongitude});
     }
     else{
-      alert("please add a ")
+      alert("please enter a valid latitude and longitude")
     }
 
   }
@@ -155,19 +155,29 @@ function App() {
   const callDarksky = async (lat,long,isCurrent) => {
     let proxy = `https://cors-anywhere.herokuapp.com/`;
     let endpoint = `https://api.darksky.net/forecast/fa37bc51f1954bd226b9cdf3ad2c6f7e/${lat},${long}`;
-
+    const formatIconString = (string) => {
+      return string.toUpperCase().replace(/-/g, '_');
+    }
+    const hueRotate = (data) => {
+      if(isCurrent){
+        document.querySelector('.weather-display_current').style.filter= "hue-rotate("+data.heat+"deg)";
+      }
+      else{
+        document.querySelector('.weather-display').style.filter= "hue-rotate("+data.heat+"deg)";
+      }
+    }
     const response = await fetch(proxy + endpoint)
     .then(res => res.json())
     .then( data => { 
 
       if(data.currently.icon){
-        data.currently.icon = data.currently.icon.toUpperCase().replace(/-/g, '_');
+        data.currently.icon = formatIconString(data.currently.icon);
       }
-      if(data.hourly.icon){
-        data.hourly.icon = data.hourly.icon.toUpperCase().replace(/-/g, '_');
+      else if(data.hourly.icon){
+        data.hourly.icon = formatIconString(data.hourly.icon);
       }
-      if(data.daily.icon){
-        data.daily.icon  = data.daily.icon.toUpperCase().replace(/-/g, '_');
+      else if(data.daily.icon){
+        data.daily.icon  = formatIconString(data.daily.icon);
       }
       data.heat = Math.ceil((32 - data.currently.temperature)*3);
 
@@ -177,10 +187,8 @@ function App() {
       else if (data){
         setcustomWeatherData(data);
       }
+        hueRotate(data);
 
-      if(isCurrent){
-        document.getElementById('weather-display').style.filter= "hue-rotate("+data.heat+"deg)";
-      }
     });
   }
   return(

@@ -1,4 +1,4 @@
-#weather-display,#weather-display_configurable{
+.weather-display, .weather-display_current{
 	display: grid;
 	padding: 12px;
 	margin: 8px;
@@ -15,7 +15,7 @@
 .location-info--row{
 	grid-column-gap: 10px;
     display: grid;
-    grid-template-columns: 1fr 2fr 9fr;
+    grid-template-columns: 1fr 2fr;
 }
 .location-info--data{
 	align-items: center;
